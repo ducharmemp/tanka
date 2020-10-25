@@ -84,8 +84,7 @@ func load(env *v1alpha1.Config, opts Opts) (*loaded, error) {
 	}, nil
 }
 
-// parseSpec parses the `spec.json` of the environment and returns a
-// *kubernetes.Kubernetes from it
+// parseSpec parses the `spec.json` of the environment
 func parseSpec(path string) (*v1alpha1.Config, error) {
 	_, baseDir, rootDir, err := jpath.Resolve(path)
 	if err != nil {
@@ -180,15 +179,15 @@ func eval(path string, opts jsonnet.Opts) (interface{}, []*v1alpha1.Config, erro
 
 	if len(extract) > 0 { // this should always be false and caught by ErrorPrimitiveReached
 		for _, ex := range extract {
-			var env v1alpha1.Config
 			data, err := json.Marshal(ex)
 			if err != nil {
 				return nil, nil, err
 			}
-			if err := json.Unmarshal(data, &env); err != nil {
+			env, err := spec.Parse(data)
+			if err != nil {
 				return nil, nil, err
 			}
-			envs = append(envs, &env)
+			envs = append(envs, env)
 		}
 	} else if hasSpec {
 		// if no environments found, fallback to original behavior

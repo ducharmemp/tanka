@@ -103,7 +103,8 @@ func TestEvalJsonnet(t *testing.T) {
 					APIVersion: v1alpha1.New().APIVersion,
 					Kind:       v1alpha1.New().Kind,
 					Metadata: v1alpha1.Metadata{
-						Name: "withenv",
+						Name:   "withenv",
+						Labels: v1alpha1.New().Metadata.Labels,
 					},
 					Spec: v1alpha1.Spec{
 						APIServer: "https://localhost",
@@ -154,7 +155,8 @@ func TestEvalJsonnet(t *testing.T) {
 					APIVersion: v1alpha1.New().APIVersion,
 					Kind:       v1alpha1.New().Kind,
 					Metadata: v1alpha1.Metadata{
-						Name: "withenv1",
+						Name:   "withenv1",
+						Labels: v1alpha1.New().Metadata.Labels,
 					},
 					Spec: v1alpha1.Spec{
 						APIServer: "https://localhost",
@@ -168,7 +170,8 @@ func TestEvalJsonnet(t *testing.T) {
 					APIVersion: v1alpha1.New().APIVersion,
 					Kind:       v1alpha1.New().Kind,
 					Metadata: v1alpha1.Metadata{
-						Name: "withenv2",
+						Name:   "withenv2",
+						Labels: v1alpha1.New().Metadata.Labels,
 					},
 					Spec: v1alpha1.Spec{
 						APIServer: "https://localhost",
