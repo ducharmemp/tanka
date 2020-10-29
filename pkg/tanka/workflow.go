@@ -66,7 +66,12 @@ func Apply(path string, opts ApplyOpts) error {
 		// prompt for confirmation
 		if opts.AutoApprove {
 		} else if err := confirmPrompt("Applying to", l.Env.Spec.Namespace, kube.Info()); err != nil {
-			return err
+			if _, ok := err.(term.ErrorAbort); ok {
+				fmt.Println(err)
+				continue
+			} else {
+				return err
+			}
 		}
 
 		if err = kube.Apply(l.Resources, kubernetes.ApplyOpts{
@@ -195,7 +200,12 @@ func Delete(path string, opts DeleteOpts) error {
 		// prompt for confirmation
 		if opts.AutoApprove {
 		} else if err := confirmPrompt("Deleting from", l.Env.Spec.Namespace, kube.Info()); err != nil {
-			return err
+			if _, ok := err.(term.ErrorAbort); ok {
+				fmt.Println(err)
+				continue
+			} else {
+				return err
+			}
 		}
 
 		if err = kube.Delete(l.Resources, kubernetes.DeleteOpts{

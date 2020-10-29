@@ -8,6 +8,14 @@ import (
 	"github.com/pkg/errors"
 )
 
+type ErrorAbort struct {
+	errOut string
+}
+
+func (e ErrorAbort) Error() string {
+	return e.errOut
+}
+
 // Confirm asks the user for confirmation
 func Confirm(msg, approval string) error {
 	reader := bufio.NewReader(os.Stdin)
@@ -18,7 +26,7 @@ func Confirm(msg, approval string) error {
 		return errors.Wrap(err, "reading from stdin")
 	}
 	if read != approval+"\n" {
-		return errors.New("aborted by user")
+		return ErrorAbort{"aborted by user"}
 	}
 	return nil
 }
